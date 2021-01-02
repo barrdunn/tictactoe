@@ -3,13 +3,23 @@ const CIRCLE_CLASS = 'circle';
 let circleTurn
 const cellElements = document.querySelectorAll('[data-cell]');
 const board = document.getElementById('board');
+const WINNING_COMBINATIONS = [
+    [0, 1, 2], 
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+]
+
 startGame()
 
 function startGame() {
     cellElements.forEach(cell => {
         cell.addEventListener('click', handleClick, { once: true })
     });
-
     setBoardHoverClass()
 }
 
@@ -19,9 +29,10 @@ function handleClick(e) {
     const cell = e.target
     const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS
     placeMark(cell, currentClass)
-    //Check for a mark
-    //Check for a win
-    //Check for a draw
+    // if(checkWin()) {
+
+    // }
+
     swapTurns()
     setBoardHoverClass()
 }
@@ -43,3 +54,16 @@ function setBoardHoverClass() {
         board.classList.add(X_CLASS)
     }
 }
+
+function checkWin(currentClass) {
+    return WINNING_COMBINATIONS.some(combination => {
+        return combination.every(index => {
+            return cellElements[index].classList.contains(currentClass)
+        })
+    })
+}
+
+
+
+console.log(WINNING_COMBINATIONS.every(index => {
+    return cellElements[index].classList.contains(currentClass)}))
